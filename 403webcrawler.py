@@ -6,7 +6,7 @@ from time import sleep
 import requests
 from bs4 import BeautifulSoup
 
-parser = argparse.ArgumentParser(description='Welcome to 403 WebCrawler!')
+parser = argparse.ArgumentParser(description='Welcome to 403 WebCrawler! Please refer to https://github.com/guilherme-sal/403webcrawler for more information.')
 parser.add_argument('host', help='Target host')
 parser.add_argument('-t', '--threads', type=int, default=5, help='Number of threads')
 parser.add_argument('-v', '--verbose', action='store_true', help='Print crawling statuses')
@@ -239,12 +239,35 @@ if __name__ == "__main__":
         for link in founded_phones:
             print(f'{link}')
 
-    # if args.output & CRAWLED_LINKS:
-    #     founded_internal_links = list(set(CRAWLED_LINKS))
-    #     with open(f'{args.output}', 'w') as file:
-    #         file.write(f'INTERNAL LINK FOUNDED: {len(founded_internal_links)}')
-    #         for line in founded_internal_links:
-    #             file.write(f'{line} \n')
+    if args.output:
+        print(f'\n Saving output: {args.output}...')
+        with open(f'{args.output}', 'w') as file:
+            if CRAWLED_LINKS:
+                file.write(('//////////////////////////////////////////\n'))
+                file.write(f'INTERNAL LINKS FOUNDED: {len(founded_internal_links)}\n')
+                for line in founded_internal_links:
+                    file.write(f'{line} \n')
+            if SEARCH_LINKS:
+                file.write(('\n//////////////////////////////////////////\n'))
+                file.write(f'SEARCH TERMS FOUNDED: {len(search_terms_link_list)}\n')
+                for line in search_terms_link_list:
+                    file.write(f'{line} \n')
+            if EXTERNAL_LINKS:
+                file.write(('\n//////////////////////////////////////////\n'))
+                file.write(f'EXTERNAL LINKS FOUNDED: {len(founded_external_links)}\n')
+                for line in founded_external_links:
+                    file.write(f'{line} \n')
+            if MAIL:
+                file.write(('\n//////////////////////////////////////////\n'))
+                file.write(f'MAIL FOUNDED: {len(founded_mail)}\n')
+                for line in founded_mail:
+                    file.write(f'{line} \n')
+            if PHONE:
+                file.write(('\n//////////////////////////////////////////\n'))
+                file.write(f'PHONES FOUNDED: {len(founded_phones)}\n')
+                for line in founded_phones:
+                    file.write(f'{line} \n')
+            else:
+                pass
 
-    print('\n//////////////////////////////////////////')
     print("END")
