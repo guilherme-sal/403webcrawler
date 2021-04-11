@@ -18,7 +18,8 @@ ROOT_URL = None
 NON_CRAWLED_LINKS = []
 CRAWLED_LINKS = []
 EXTERNAL_LINKS = []
-MAIL =[]
+SEARCH_LINKS = []
+MAIL = []
 PHONE = []
 HEADER = {}
 
@@ -147,6 +148,16 @@ def crawl_routine():
     crawl_check(requested_checked_domains)
 
 
+def search_terms():
+    terms_list = args.search.split(',')
+    for term in terms_list:
+        for link in CRAWLED_LINKS:
+            if term in link:
+                SEARCH_LINKS.append(link)
+        else:
+            pass
+
+
 if __name__ == "__main__":
 
     args = parser.parse_args()
@@ -194,6 +205,15 @@ if __name__ == "__main__":
         sleep(1)
         for link in founded_internal_links:
             print(f'{link}')
+
+        if args.search:
+            print('\n//////////////////////////////////////////')
+            search_terms()
+            search_terms_link_list = (set(SEARCH_LINKS))
+            print(f'FOUNDED TERMS IN LINKS: {len(search_terms_link_list)}')
+            sleep(1)
+            for link in search_terms_link_list:
+                print(f'{link}')
 
     if EXTERNAL_LINKS:
         founded_external_links =  list(set(EXTERNAL_LINKS))
